@@ -1,5 +1,6 @@
 package com.example.jetpackcomposetest
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,6 +22,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,36 +70,42 @@ fun Greeting(name: String) {
             stiffness =  Spring.StiffnessLow
         )
     )
-
-    Row (
-        modifier = Modifier.padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(R.drawable.jetpackcompose),
-            contentDescription = "Logo Jetpack Compose",
-            modifier = Modifier.size(animatedSizeDp)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column (modifier = Modifier.weight(1f)){
-            Text(
-                text = "Hello $name!",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+    Card(
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+    ){
+        Row (
+            modifier = Modifier.padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(R.drawable.jetpackcompose),
+                contentDescription = "Logo Jetpack Compose",
+                modifier = Modifier.size(animatedSizeDp)
             )
-            Text(
-                text = "Welcome to the app."
-            )
-        }
-        IconButton(onClick = { isExpanded = !isExpanded }) {
-            Icon(
-                imageVector = if(isExpanded) Icons.Filled.ExpandLess else Icons.Outlined.ExpandMore,
-                contentDescription = if(isExpanded) "Show less" else "Show more"
-            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Column (modifier = Modifier.weight(1f)){
+                Text(
+                    text = "Hello $name!",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "Welcome to the app.",
+                    fontStyle = if(isExpanded) FontStyle.Italic else FontStyle.Normal
+                )
+            }
+            IconButton(onClick = { isExpanded = !isExpanded }) {
+                Icon(
+                    imageVector = if(isExpanded) Icons.Filled.ExpandLess else Icons.Outlined.ExpandMore,
+                    contentDescription = if(isExpanded) "Show less" else "Show more"
+                )
+            }
         }
     }
-
-
 }
 
 private val sampleName = listOf(
@@ -136,6 +146,7 @@ fun GreetingList(names:List<String>){
 }
 
 @Preview(showBackground = true, device = Devices.PIXEL_4)
+@Preview(showBackground = true, device = Devices.PIXEL_4, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun GreetingPreview() {
     JetpackComposeTestTheme {
